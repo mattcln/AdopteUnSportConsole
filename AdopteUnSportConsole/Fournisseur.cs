@@ -6,15 +6,15 @@ using System.Threading.Tasks;
 
 namespace AdopteUnSportConsole
 {
-    class Program
+    class Fournisseur
     {
-        static void Main(string[] args)
-        {
+        string nom;
+        string ville;
 
-        }
-        static void JeTemontre()
+        public Fournisseur(string nom, string ville)
         {
-            
+            this.nom = nom;
+            this.ville = ville;
         }
     }
 }

@@ -6,15 +6,7 @@ using System.Threading.Tasks;
 
 namespace AdopteUnSportConsole
 {
-    class Program
+    class Commande
     {
-        static void Main(string[] args)
-        {
-
-        }
-        static void JeTemontre()
-        {
-            
-        }
     }
 }
