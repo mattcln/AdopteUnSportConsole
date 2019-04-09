@@ -14,7 +14,7 @@ namespace AdopteUnSportConsole
         }
         static void JeTemontre()
         {
-
+            int bite = 23;
         }
     }
 }
