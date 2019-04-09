@@ -10,6 +10,11 @@ namespace AdopteUnSportConsole
     {
         static void Main(string[] args)
         {
+            JeTemontre();
+        }
+        static void JeTemontre()
+        {
+
         }
     }
 }
