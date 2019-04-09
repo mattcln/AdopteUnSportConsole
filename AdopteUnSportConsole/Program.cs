@@ -12,7 +12,7 @@ namespace AdopteUnSportConsole
     {
         static void ExoType()
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
