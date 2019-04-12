@@ -12,7 +12,7 @@ namespace AdopteUnSportConsole
     {
         static void Main(string[] args)
         {
-            ExoType();
+            NouvelleCommande();
             Console.ReadKey();
         }
 
@@ -46,8 +46,9 @@ namespace AdopteUnSportConsole
         {
             Console.WriteLine("Une nouvelle commande vient d'être créer");
             string IDProduit = AjouterUnArticle();  //Renvoie l'ID d'un produit qui existe
+            Console.WriteLine("Voulez-vous ajouter d'autres articles ?");
+            string RéponseArticle = OuiNon();
             //Proposer d'ajouter plus d'articles etc.
-
         }
         static string AjouterUnArticle()                                    // EN COURS
         {
@@ -80,15 +81,27 @@ namespace AdopteUnSportConsole
                 for (int i = 0; i < reader.FieldCount; i++)
                 {
                     string ligne = reader.GetValue(i).ToString();
-                    Console.WriteLine(ligne);
                     if (ligne == IDProduit)
                     {
                         Existence = true;
+                        Console.WriteLine("Le produit a été trouvé.");
                     }
                 }
             }
             maConnexion.Close();
             return Existence;
+        }
+        static string OuiNon()
+        {
+            string Réponse = Console.ReadLine();
+            Réponse = Réponse.ToLower();
+            while (Réponse != "oui" && Réponse != "non")
+            {
+                Console.WriteLine("\n Il y a eu une erreur de compréhension, veuillez renseigner de nouveau par 'oui' ou 'non' s'il-vous-plaît: ");
+                Réponse = Console.ReadLine();
+                Réponse = Réponse.ToLower();
+            }
+            return Réponse;
         }
     }
 }
