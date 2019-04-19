@@ -73,6 +73,10 @@ namespace AdopteUnSportConsole
             }
             return IDProduit;
         }
+        static void MenuInformationsCommande()
+        {
+            Console.WriteLine("Avec quelles informations voulez-vous rechercher une commande ? (Nom du client, ID du client, ID de la commande, quantité d'articles)");
+        }
 
         //Fonctions outils
 
