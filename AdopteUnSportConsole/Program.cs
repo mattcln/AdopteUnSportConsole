@@ -46,12 +46,14 @@ namespace AdopteUnSportConsole
         {
             Console.WriteLine(" Une nouvelle commande vient d'être créer");
             string IDProduit = AjouterUnArticle();  //Renvoie l'ID d'un produit qui existe
+            SoustraireArticle(IDProduit);
             string IDProduitsCom = IDProduit;   //Enregistrement des ID des produits à ajouter dans la commande
             Console.WriteLine(" Voulez-vous ajouter des articles supplémentaires ?");
             string RéponseArticle = OuiNon();
             while (RéponseArticle == "oui")
             {
                 IDProduit = AjouterUnArticle();
+                SoustraireArticle(IDProduit);
                 IDProduitsCom += "," + IDProduit;
                 Console.WriteLine(" Voulez-vous ajouter des articles supplémentaires ?");
                 RéponseArticle = OuiNon();
@@ -120,5 +122,18 @@ namespace AdopteUnSportConsole
             Console.Clear();
             return Réponse;
         }                                            //  CA MARCHE
+        static void SoustraireArticle(string IDProduit) 
+        {
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "UPDATE Produit SET stock = stock - 1 WHERE IDProduit = '"+IDProduit+"'";    
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            Console.WriteLine("Le stock du produit " + IDProduit + " a été baissé de 1 avec succès.");
+            maConnexion.Close();
+        }
     }
 }
