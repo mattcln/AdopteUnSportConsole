@@ -12,7 +12,7 @@ namespace AdopteUnSportConsole
     {
         static void Main(string[] args)
         {
-            NouvelleCommande();
+            CréationClient();
             Console.ReadKey();
         }
 
@@ -42,24 +42,32 @@ namespace AdopteUnSportConsole
             maConnexion.Close();
         }
 
-        static void NouvelleCommande()                                      // EN COURS
+        //Commande
+        static void NouvelleCommande()                                      // CA MARCHE
         {
             Console.WriteLine(" Une nouvelle commande vient d'être créer");
             string IDProduit = AjouterUnArticle();  //Renvoie l'ID d'un produit qui existe
-            SoustraireArticle(IDProduit);
             string IDProduitsCom = IDProduit;   //Enregistrement des ID des produits à ajouter dans la commande
             Console.WriteLine(" Voulez-vous ajouter des articles supplémentaires ?");
             string RéponseArticle = OuiNon();
             while (RéponseArticle == "oui")
             {
                 IDProduit = AjouterUnArticle();
-                SoustraireArticle(IDProduit);
                 IDProduitsCom += "," + IDProduit;
                 Console.WriteLine(" Voulez-vous ajouter des articles supplémentaires ?");
                 RéponseArticle = OuiNon();
             }
             Console.WriteLine(" Voici la liste des IDs des produits séléctionnés : " + IDProduitsCom);
-            //Mettre l'état des produits séléctionnés à jour 
+            Console.WriteLine(" Confirmez-vous la commande ? ('Oui' pour confirmer, 'Non' pour annuler)");
+            string RConfirmation = OuiNon();
+            if (RConfirmation == "oui")
+            {
+                string[] IDP = IDProduitsCom.Split(',');
+                for (int i = 0; i < IDP.Length; i++)
+                {
+                    SoustraireArticle(IDP[i]);
+                }
+            }
         }
         static string AjouterUnArticle()                                    // CA MARCHE
         {
@@ -75,10 +83,70 @@ namespace AdopteUnSportConsole
             }
             return IDProduit;
         }
-        static void MenuInformationsCommande()
+
+        //Client
+        static void CréationClient()
         {
-            Console.WriteLine("Avec quelles informations voulez-vous rechercher une commande ? (Nom du client, ID du client, ID de la commande, quantité d'articles)");
+            Console.WriteLine(" Veuillez rentrer les informations suivantes du client :");
+            Console.WriteLine(" Nom :");
+            string Nom = Console.ReadLine();
+            Console.WriteLine(" Prénom :");
+            string Prénom = Console.ReadLine();
+            Console.WriteLine(" Année de naissance :");
+            int AnnéeNaiss = int.Parse(Console.ReadLine());
+            Console.WriteLine(" Adresse :");
+            string Adresse = Console.ReadLine();
+            Console.WriteLine(" Ville :");
+            string Ville = Console.ReadLine();
+            Console.WriteLine(" Email :");
+            string Email = Console.ReadLine();
+            EnregistrementClient(Nom, Prénom, AnnéeNaiss, Adresse, Ville, Email);
+
         }
+        static void EnregistrementClient(string Nom, string Prénom, int AnnéeNaiss, string Adresse, string Ville, string Email)
+        {
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            string IDClient = CréationIDClient();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "insert into Clients values ('" + IDClient + "','" + Nom + "','" + Prénom + "','" + AnnéeNaiss + "','" + Adresse + "','" + Ville + "','" + 0 + "','" + Email + "')";
+            Console.WriteLine(command.CommandText);
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            Console.WriteLine("Le client a bien été enregistré.");
+            maConnexion.Close();
+        }
+        static string CréationIDClient()
+        {
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "select count(IDClients)+1 from Clients";
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            string IDClient = "";
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    IDClient = reader.GetValue(i).ToString();
+                }
+            }
+            Console.WriteLine(IDClient);
+            while (IDClient.Length < 4)
+            {
+                IDClient = "0" + IDClient;
+            }
+            IDClient = "A" + IDClient;
+            Console.WriteLine(IDClient);
+            maConnexion.Close();
+            return IDClient;
+        }
+        
 
         //Fonctions outils
 
