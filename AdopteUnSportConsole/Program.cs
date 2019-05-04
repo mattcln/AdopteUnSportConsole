@@ -12,7 +12,7 @@ namespace AdopteUnSportConsole
     {
         static void Main(string[] args)
         {
-            CréationClient();
+            InformationsClient();
             Console.ReadKey();
         }
 
@@ -43,7 +43,7 @@ namespace AdopteUnSportConsole
         }
 
         //Commande
-        static void NouvelleCommande()                                                                                                          // CA MARCHE
+        static void NouvelleCommande()                                                                                                                              // CA MARCHE
         {
             Console.WriteLine(" Une nouvelle commande vient d'être créer");
             string IDProduit = AjouterUnArticle();  //Renvoie l'ID d'un produit qui existe
@@ -69,7 +69,7 @@ namespace AdopteUnSportConsole
                 }
             }
         }
-        static string AjouterUnArticle()                                                                                                        // CA MARCHE
+        static string AjouterUnArticle()                                                                                                                            // CA MARCHE
         {
             Console.WriteLine(" Veuillez renseigner l'ID du produit que vous voulez ajouter :");
             string IDProduit = Console.ReadLine();
@@ -85,7 +85,7 @@ namespace AdopteUnSportConsole
         }
 
         //Client
-        static void CréationClient()                                                                                                            // CA MARCHE
+        static void CréationClient()                                                                                                                                // CA MARCHE
         {
             Console.WriteLine(" Veuillez rentrer les informations suivantes du client :");
             Console.WriteLine(" Nom :");
@@ -103,7 +103,7 @@ namespace AdopteUnSportConsole
             EnregistrementClient(Nom, Prénom, AnnéeNaiss, Adresse, Ville, Email);
 
         }                                                                                                         
-        static void EnregistrementClient(string Nom, string Prénom, int AnnéeNaiss, string Adresse, string Ville, string Email)                 // CA MARCHE
+        static void EnregistrementClient(string Nom, string Prénom, int AnnéeNaiss, string Adresse, string Ville, string Email)                                     // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
@@ -119,7 +119,7 @@ namespace AdopteUnSportConsole
             Console.WriteLine("Le client a bien été enregistré.");
             maConnexion.Close();
         }
-        static string CréationIDClient()                                                                                                        // CA MARCHE
+        static string CréationIDClient()                                                                                                                            // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
@@ -146,11 +146,290 @@ namespace AdopteUnSportConsole
             maConnexion.Close();
             return IDClient;
         }                               
+        static void InformationsClient()
+        {
+            Console.WriteLine("Par quel moyen souhaitez-vous retrouver les informations du client ? (IDClient, Nom, Prénom, AnnéeNaiss, Adresse, Ville, Dépense, Email)");
+            string Moyen = Console.ReadLine();
+            Moyen = Moyen.ToLower();
+            while(Moyen != "idclient" && Moyen != "nom" && Moyen != "prénom" && Moyen != "annéenaiss" && Moyen != "adresse" && Moyen != "ville" && Moyen != "dépense" && Moyen != "email")
+            {
+                Console.WriteLine(" Veuillez renseigner un moyen valide s'il-vous-plaît : (IDClient, Nom, Prénom, AnnéeNaiss, Adresse, Ville, Dépense, Email)");
+                Moyen = Console.ReadLine();
+                Moyen = Moyen.ToLower();
+            }
+            string InfoB = "";
+            if (Moyen == "idclient")
+            {
+                Console.WriteLine("Veuillez renseigner l'ID du client :");
+                InfoB = Console.ReadLine();
+            }
+            if (Moyen == "nom")
+            {
+                Console.WriteLine("Veuillez renseigner le nom du client :");
+                InfoB = Console.ReadLine();
+            }
+            if (Moyen == "prénom")
+            {
+                Console.WriteLine("Veuillez renseigner le prénom du client :");
+                InfoB = Console.ReadLine();
+            }
+            if (Moyen == "annéenaiss")
+            {
+                Console.WriteLine("Veuillez renseigner l'année de naissance du client :");
+                InfoB = Console.ReadLine();
+            }
+            if (Moyen == "adresse")
+            {
+                Console.WriteLine("Veuillez renseigner l'adresse du client :");
+                InfoB = Console.ReadLine();
+            }
+            if (Moyen == "ville")
+            {
+                Console.WriteLine("Veuillez renseigner la ville du client :");
+                InfoB = Console.ReadLine();
+            }
+            if (Moyen == "dépense")
+            {
+                Console.WriteLine("Veuillez renseigner les dépenses du client :");
+                InfoB = Console.ReadLine();
+            }
+            if (Moyen == "email")
+            {
+                Console.WriteLine("Veuillez renseigner l'email du client :");
+                InfoB = Console.ReadLine();
+            }
+            RetrouverInformations(Moyen, InfoB);
+        }
+        static void RetrouverInformations(string Moyen, string InfoB)                                                                                               // CA MARCHE
+        {
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+            string IDClient = ""; string Nom = ""; string Prénom = ""; int dateNaiss = 0; string adresse = ""; string ville = ""; int depenses = 0; string email = "";
+            MySqlCommand command = maConnexion.CreateCommand();
+            MySqlDataReader reader;
+            if (Moyen == "idclient")
+            {
+                command.CommandText = "select nom , prenom, dateNaiss , adresse, ville, depenses, email from Clients where IDClients = '" + InfoB + "'";
+                
+                reader = command.ExecuteReader();
+                string InfoClient = "";
+                while (reader.Read())       // parcours ligne par ligne
+                {
+                    InfoClient = "";
+                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(i).ToString();
+                        InfoClient += valeurattribut + ",";
+                    }                    
+                }
+                string[] TabInfoClient = InfoClient.Split(',');
+                IDClient = InfoB;
+                Nom = TabInfoClient[0];
+                Prénom = TabInfoClient[1];
+                dateNaiss = Convert.ToInt32(TabInfoClient[2]);
+                adresse = TabInfoClient[3];
+                ville = TabInfoClient[4];
+                depenses = Convert.ToInt32(TabInfoClient[5]);
+                email = TabInfoClient[6];
+            }
+            if (Moyen == "nom")
+            {
+                command.CommandText = "select IDClients , prenom, dateNaiss , adresse, ville, depenses, email from Clients where nom = '" + InfoB + "'";
+
+                reader = command.ExecuteReader();
+                string InfoClient = "";
+                while (reader.Read())       // parcours ligne par ligne
+                {
+                    InfoClient = "";
+                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(i).ToString();
+                        InfoClient += valeurattribut + ",";
+                    }
+                }
+                string[] TabInfoClient = InfoClient.Split(',');
+                IDClient = TabInfoClient[0];
+                Nom = InfoB;
+                Prénom = TabInfoClient[1];
+                dateNaiss = Convert.ToInt32(TabInfoClient[2]);
+                adresse = TabInfoClient[3];
+                ville = TabInfoClient[4];
+                depenses = Convert.ToInt32(TabInfoClient[5]);
+                email = TabInfoClient[6];
+            }
+            if (Moyen == "prenom")
+            {
+                command.CommandText = "select IDClients , nom, dateNaiss , adresse, ville, depenses, email from Clients where prenom = '" + InfoB + "'";
+
+                reader = command.ExecuteReader();
+                string InfoClient = "";
+                while (reader.Read())       // parcours ligne par ligne
+                {
+                    InfoClient = "";
+                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(i).ToString();
+                        InfoClient += valeurattribut + ",";
+                    }
+                }
+                string[] TabInfoClient = InfoClient.Split(',');
+                IDClient = TabInfoClient[0];
+                Nom = TabInfoClient[1];
+                Prénom = InfoB;
+                dateNaiss = Convert.ToInt32(TabInfoClient[2]);
+                adresse = TabInfoClient[3];
+                ville = TabInfoClient[4];
+                depenses = Convert.ToInt32(TabInfoClient[5]);
+                email = TabInfoClient[6];
+            }
+            if (Moyen == "annéenaiss")
+            {
+                command.CommandText = "select IDClients, nom, prenom , adresse, ville, depenses, email from Clients where dateNaiss = " + InfoB;
+
+                reader = command.ExecuteReader();
+                string InfoClient = "";
+                while (reader.Read())       // parcours ligne par ligne
+                {
+                    InfoClient = "";
+                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(i).ToString();
+                        InfoClient += valeurattribut + ",";
+                    }
+                }
+                string[] TabInfoClient = InfoClient.Split(',');
+                IDClient = TabInfoClient[0];
+                Nom = TabInfoClient[1];
+                Prénom = TabInfoClient[2];
+                dateNaiss = Convert.ToInt32(InfoB);
+                adresse = TabInfoClient[3];
+                ville = TabInfoClient[4];
+                depenses = Convert.ToInt32(TabInfoClient[5]);
+                email = TabInfoClient[6];
+            }
+            if (Moyen == "adresse")
+            {
+                command.CommandText = "select IDClients, nom, prenom , dateNaiss, ville, depenses, email from Clients where adresse = '" + InfoB + "'";
+
+                reader = command.ExecuteReader();
+                string InfoClient = "";
+                while (reader.Read())       // parcours ligne par ligne
+                {
+                    InfoClient = "";
+                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(i).ToString();
+                        InfoClient += valeurattribut + ",";
+                    }
+                }
+                string[] TabInfoClient = InfoClient.Split(',');
+                IDClient = TabInfoClient[0];
+                Nom = TabInfoClient[1];
+                Prénom = TabInfoClient[2];
+                dateNaiss = Convert.ToInt32(TabInfoClient[3]);
+                adresse = InfoB;
+                ville = TabInfoClient[4];
+                depenses = Convert.ToInt32(TabInfoClient[5]);
+                email = TabInfoClient[6];
+            }
+            if (Moyen == "ville")
+            {
+                command.CommandText = "select IDClients, nom, prenom , dateNaiss, adresse, depenses, email from Clients where ville = '" + InfoB + "'";
+
+                reader = command.ExecuteReader();
+                string InfoClient = "";
+                while (reader.Read())       // parcours ligne par ligne
+                {
+                    InfoClient = "";
+                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(i).ToString();
+                        InfoClient += valeurattribut + ",";
+                    }
+                }
+                string[] TabInfoClient = InfoClient.Split(',');
+                IDClient = TabInfoClient[0];
+                Nom = TabInfoClient[1];
+                Prénom = TabInfoClient[2];
+                dateNaiss = Convert.ToInt32(TabInfoClient[3]);
+                adresse = TabInfoClient[4];
+                ville = InfoB;
+                depenses = Convert.ToInt32(TabInfoClient[5]);
+                email = TabInfoClient[6];
+            }
+            if (Moyen == "dépense")
+            {
+                command.CommandText = "select IDClients, nom, prenom , dateNaiss, adresse, ville, email from Clients where depenses = " + InfoB;
+
+                reader = command.ExecuteReader();
+                string InfoClient = "";
+                while (reader.Read())       // parcours ligne par ligne
+                {
+                    InfoClient = "";
+                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(i).ToString();
+                        InfoClient += valeurattribut + ",";
+                    }
+                }
+                string[] TabInfoClient = InfoClient.Split(',');
+                IDClient = TabInfoClient[0];
+                Nom = TabInfoClient[1];
+                Prénom = TabInfoClient[2];
+                dateNaiss = Convert.ToInt32(TabInfoClient[3]);
+                adresse = TabInfoClient[4];
+                ville = TabInfoClient[5];
+                depenses = Convert.ToInt32(InfoB);
+                email = TabInfoClient[6];
+            }
+            if (Moyen == "email")
+            {
+                command.CommandText = "select IDClients, nom, prenom , dateNaiss, adresse, ville, depenses from Clients where email = '" + InfoB + "'";
+
+                reader = command.ExecuteReader();
+                string InfoClient = "";
+                while (reader.Read())       // parcours
+                {
+                    InfoClient = "";
+                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(i).ToString();
+                        InfoClient += valeurattribut + ",";
+                    }
+                }
+                string[] TabInfoClient = InfoClient.Split(',');
+                IDClient = TabInfoClient[0];
+                Nom = TabInfoClient[1];
+                Prénom = TabInfoClient[2];
+                dateNaiss = Convert.ToInt32(TabInfoClient[3]);
+                adresse = TabInfoClient[4];
+                ville = TabInfoClient[5];
+                depenses = Convert.ToInt32(TabInfoClient[6]);
+                email = InfoB;
+            }
+            maConnexion.Close();
+            AffichageInfoClient(IDClient, Nom, Prénom, dateNaiss, adresse, ville, depenses, email);
+        }
+        static void AffichageInfoClient(string IDClient, string Nom, string Prénom, int DateNaiss, string Adresse, string Ville, int Dépenses, string Email)        // CA MARCHE
+        {
+            Console.Clear();
+            Console.WriteLine("     Voici les informations du client :");
+            Console.WriteLine("");
+            Console.WriteLine(" IDClient : " + IDClient);
+            Console.WriteLine(" Nom : " + Nom);
+            Console.WriteLine(" Prénom : " + Prénom);
+            Console.WriteLine(" DateNaiss : " + DateNaiss);
+            Console.WriteLine(" Adresse : " + Adresse);
+            Console.WriteLine(" Ville : " + Ville);
+            Console.WriteLine(" Dépenses : " + Dépenses);
+            Console.WriteLine(" Email : " + Email);
+        }
         
 
         //Fonctions outils
 
-        static bool ExistenceProduit(string IDProduit)                                                                                          // CA MARCHE
+        static bool ExistenceProduit(string IDProduit)                                                                                                              // CA MARCHE
         {
             bool Existence = false;
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
@@ -177,7 +456,7 @@ namespace AdopteUnSportConsole
             maConnexion.Close();
             return Existence;
         }
-        static string OuiNon()                                                                                                                  // CA MARCHE
+        static string OuiNon()                                                                                                                                      // CA MARCHE
         {
             string Réponse = Console.ReadLine();
             Réponse = Réponse.ToLower();
@@ -190,7 +469,7 @@ namespace AdopteUnSportConsole
             Console.Clear();
             return Réponse;
         } 
-        static void SoustraireArticle(string IDProduit)                                                                                         // CA MARCHE
+        static void SoustraireArticle(string IDProduit)                                                                                                             // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
