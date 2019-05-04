@@ -43,7 +43,7 @@ namespace AdopteUnSportConsole
         }
 
         //Commande
-        static void NouvelleCommande()                                      // CA MARCHE
+        static void NouvelleCommande()                                                                                                          // CA MARCHE
         {
             Console.WriteLine(" Une nouvelle commande vient d'être créer");
             string IDProduit = AjouterUnArticle();  //Renvoie l'ID d'un produit qui existe
@@ -69,7 +69,7 @@ namespace AdopteUnSportConsole
                 }
             }
         }
-        static string AjouterUnArticle()                                    // CA MARCHE
+        static string AjouterUnArticle()                                                                                                        // CA MARCHE
         {
             Console.WriteLine(" Veuillez renseigner l'ID du produit que vous voulez ajouter :");
             string IDProduit = Console.ReadLine();
@@ -85,7 +85,7 @@ namespace AdopteUnSportConsole
         }
 
         //Client
-        static void CréationClient()
+        static void CréationClient()                                                                                                            // CA MARCHE
         {
             Console.WriteLine(" Veuillez rentrer les informations suivantes du client :");
             Console.WriteLine(" Nom :");
@@ -102,8 +102,8 @@ namespace AdopteUnSportConsole
             string Email = Console.ReadLine();
             EnregistrementClient(Nom, Prénom, AnnéeNaiss, Adresse, Ville, Email);
 
-        }
-        static void EnregistrementClient(string Nom, string Prénom, int AnnéeNaiss, string Adresse, string Ville, string Email)
+        }                                                                                                         
+        static void EnregistrementClient(string Nom, string Prénom, int AnnéeNaiss, string Adresse, string Ville, string Email)                 // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
@@ -119,7 +119,7 @@ namespace AdopteUnSportConsole
             Console.WriteLine("Le client a bien été enregistré.");
             maConnexion.Close();
         }
-        static string CréationIDClient()
+        static string CréationIDClient()                                                                                                        // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
@@ -145,12 +145,12 @@ namespace AdopteUnSportConsole
             Console.WriteLine(IDClient);
             maConnexion.Close();
             return IDClient;
-        }
+        }                               
         
 
         //Fonctions outils
 
-        static bool ExistenceProduit(string IDProduit)                          // CA MARCHE
+        static bool ExistenceProduit(string IDProduit)                                                                                          // CA MARCHE
         {
             bool Existence = false;
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
@@ -177,7 +177,7 @@ namespace AdopteUnSportConsole
             maConnexion.Close();
             return Existence;
         }
-        static string OuiNon()
+        static string OuiNon()                                                                                                                  // CA MARCHE
         {
             string Réponse = Console.ReadLine();
             Réponse = Réponse.ToLower();
@@ -189,8 +189,8 @@ namespace AdopteUnSportConsole
             }
             Console.Clear();
             return Réponse;
-        }                                            //  CA MARCHE
-        static void SoustraireArticle(string IDProduit) 
+        } 
+        static void SoustraireArticle(string IDProduit)                                                                                         // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
