@@ -12,7 +12,7 @@ namespace AdopteUnSportConsole
     {
         static void Main(string[] args)
         {
-            InformationsClient();
+            NouvelleCommande();
             Console.ReadKey();
         }
 
@@ -46,13 +46,17 @@ namespace AdopteUnSportConsole
         static void NouvelleCommande()                                                                                                                              // CA MARCHE
         {
             Console.WriteLine(" Une nouvelle commande vient d'être créer");
+            string IDClient = ConnexionClient();
+            int NBArticles = 0;
             string IDProduit = AjouterUnArticle();  //Renvoie l'ID d'un produit qui existe
+            NBArticles++;
             string IDProduitsCom = IDProduit;   //Enregistrement des ID des produits à ajouter dans la commande
             Console.WriteLine(" Voulez-vous ajouter des articles supplémentaires ?");
             string RéponseArticle = OuiNon();
             while (RéponseArticle == "oui")
             {
                 IDProduit = AjouterUnArticle();
+                NBArticles++;
                 IDProduitsCom += "," + IDProduit;
                 Console.WriteLine(" Voulez-vous ajouter des articles supplémentaires ?");
                 RéponseArticle = OuiNon();
@@ -67,7 +71,8 @@ namespace AdopteUnSportConsole
                 {
                     SoustraireArticle(IDP[i]);
                 }
-            }
+                EnregistrerCommande(IDClient, NBArticles);
+            }            
         }
         static string AjouterUnArticle()                                                                                                                            // CA MARCHE
         {
@@ -82,6 +87,10 @@ namespace AdopteUnSportConsole
                 //Faire une fonction pour sortir du programme sinon si on a pas d'ID valide, la boucle est infinie
             }
             return IDProduit;
+        }
+        static void EnregistrerCommande(string IDClient, int NBArticles) //Faut sauvegarder la commande dans le SQL, la méthode reçoit déjà le bon IDClient et le bon NBArticles
+        {
+
         }
 
         //Client
@@ -146,7 +155,7 @@ namespace AdopteUnSportConsole
             maConnexion.Close();
             return IDClient;
         }                               
-        static void InformationsClient()
+        static void InformationsClient()                                                                                                                            // CA MARCHE
         {
             Console.WriteLine("Par quel moyen souhaitez-vous retrouver les informations du client ? (IDClient, Nom, Prénom, AnnéeNaiss, Adresse, Ville, Dépense, Email)");
             string Moyen = Console.ReadLine();
@@ -425,10 +434,64 @@ namespace AdopteUnSportConsole
             Console.WriteLine(" Dépenses : " + Dépenses);
             Console.WriteLine(" Email : " + Email);
         }
+        static string ConnexionClient()
+        {
+            Console.WriteLine(" Est-ce que le client a déjà un compte existant ?");
+            string RéponseClient1 = OuiNon();
+            string IDClient = "";
+            while (IDClient == "")
+            {
+                if (RéponseClient1 == "oui")
+                {
+                    Console.WriteLine(" Avez-vous l'ID du client ?");
+                    string RéponseClient2 = OuiNon();
+                    if (RéponseClient2 == "oui")
+                    {
+                        Console.WriteLine(" Veuillez renseigner l'ID du client");
+                        IDClient = Console.ReadLine();
+                    }
+                    else
+                    {
+                        InformationsClient();
+                    }
+                }
+                else
+                {
+                    CréationClient();
+                    RéponseClient1 = "oui";
+                }
+            }
+            return IDClient;
+        }
+
+
+        //Livraison
+        static void SelectionFournisseur (string IDProduit) //Donner le fournisseur responsable d'un article quelconque (y'a un pb d'IDFournisseur pour le moment)
+        {
+
+        }
         
+        //Produit
+        static void AjouterStock() //Ajouter du stock dans la base de donnée pour un produit
+        {
+
+        }
+        static void InformationProduit() //Avoir les informations d'un produit
+        {
+
+        }
+
+        //Autre
+        static void MeilleurClient() //Faire des stats de meilleur vente etc. ?
+        {
+        
+        }
+        static void VérifCodePromo(string Code) //Faire une gestion des codes promo, on disait qu'on faisait une réduc de 100€ ou jsp quoi
+        {
+        
+        }
 
         //Fonctions outils
-
         static bool ExistenceProduit(string IDProduit)                                                                                                              // CA MARCHE
         {
             bool Existence = false;
