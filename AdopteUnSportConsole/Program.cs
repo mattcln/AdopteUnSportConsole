@@ -207,9 +207,9 @@ namespace AdopteUnSportConsole
                 Console.WriteLine("Veuillez renseigner l'email du client :");
                 InfoB = Console.ReadLine();
             }
-            RetrouverInformations(Moyen, InfoB);
+            RetrouverInformationsclient(Moyen, InfoB);
         }
-        static void RetrouverInformations(string Moyen, string InfoB)                                                                                               // CA MARCHE
+        static void RetrouverInformationsclient(string Moyen, string InfoB)                                                                                               // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
@@ -478,9 +478,95 @@ namespace AdopteUnSportConsole
         }
         static void InformationProduit() //Avoir les informations d'un produit
         {
+            Console.WriteLine("Par quel moyen souhaitez-vous retrouver les informations du produit ? (IDproduit, IDfournisseur)");
+            string Moyen = Console.ReadLine();
+            Moyen = Moyen.ToLower();
+            while (Moyen != "idproduit" && Moyen != "idfournisseur")
+            {
+                Console.WriteLine(" Veuillez renseigner un moyen valide s'il-vous-plaît : (IDproduit, IDfournisseur)");
+                Moyen = Console.ReadLine();
+                Moyen = Moyen.ToLower();
+            }
+            string InfoB = "";
+            if (Moyen == "idproduit")
+            {
+                Console.WriteLine("Veuillez renseigner l'ID du produit :");
+                InfoB = Console.ReadLine();
+            }
+            if (Moyen == "idfournisseur")
+            {
+                Console.WriteLine("Veuillez renseigner l'ID du fournisseur  :");
+                InfoB = Console.ReadLine();
+            }
+            RetrouverInformationsProduit(Moyen, InfoB);
+        }
+       static void RetrouverInformationsProduit(string Moyen, string InfoB)
+        {
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+            string IDProduit = ""; string IDFournisseur = ""; int prix = 0; int stock = 0; string type = "";
+            MySqlCommand command = maConnexion.CreateCommand();
+            MySqlDataReader reader;
+            if (Moyen == "idproduit")
+            {
+                command.CommandText = "select IDProduit , IDFournisseur, prix , stock, type from Produit where IDProduit = '" + InfoB + "'";
+
+                reader = command.ExecuteReader();
+                string InfoProduit = "";
+                while (reader.Read())       // parcours ligne par ligne
+                {
+                    InfoProduit = "";
+                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(i).ToString();
+                        InfoProduit += valeurattribut + ",";
+                    }
+                }
+                string[] TabInfoProduit = InfoProduit.Split(',');
+                InfoProduit = InfoB;
+                IDFournisseur = TabInfoProduit[1];
+                prix = Convert.ToInt32(TabInfoProduit[2]);
+                stock = Convert.ToInt32(TabInfoProduit[3]);
+                type = TabInfoProduit[4];
+               
+            }
+            if (Moyen == "idfournisseur")
+            {
+                command.CommandText = "select IDProduit , IDFournisseur, prix , stock, type from Produit where IDProduit = '" + InfoB + "'";
+
+                reader = command.ExecuteReader();
+                string InfoProduit = "";
+                while (reader.Read())       // parcours ligne par ligne
+                {
+                    InfoProduit = "";
+                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(i).ToString();
+                        InfoProduit += valeurattribut + ",";
+                    }
+                }
+                string[] TabInfoProduit = InfoProduit.Split(',');
+                InfoProduit = InfoB;
+                IDFournisseur = TabInfoProduit[1];
+                prix = Convert.ToInt32(TabInfoProduit[2]);
+                stock = Convert.ToInt32(TabInfoProduit[3]);
+                type = TabInfoProduit[4];
+            }
+            AffichageInfoProduit(IDProduit, IDFournisseur, prix, stock, type);
+        }
+        static void AffichageInfoProduit(string IDProduit, string IDFournisseur, int prix, int stock, string type)
+        {
+            Console.Clear();
+            Console.WriteLine("     Voici les informations du produit :");
+            Console.WriteLine("");
+            Console.WriteLine(" IDProduit : " + IDProduit);
+            Console.WriteLine(" IDFournisseur : " + IDFournisseur);
+            Console.WriteLine(" prix : " + prix);
+            Console.WriteLine(" stock : " + stock);
+            Console.WriteLine(" type : " + type);
 
         }
-
         //Autre
         static void MeilleurClient() //Faire des stats de meilleur vente etc. ?
         {
