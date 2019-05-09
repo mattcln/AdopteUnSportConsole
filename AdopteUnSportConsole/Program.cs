@@ -209,7 +209,7 @@ namespace AdopteUnSportConsole
             }
             RetrouverInformationsclient(Moyen, InfoB);
         }
-        static void RetrouverInformationsclient(string Moyen, string InfoB)                                                                                               // CA MARCHE
+        static void RetrouverInformationsclient(string Moyen, string InfoB)                                                                                         // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
@@ -476,7 +476,7 @@ namespace AdopteUnSportConsole
         {
 
         }
-        static void InformationProduit() //Avoir les informations d'un produit
+        static void InformationProduit() //A TESTER
         {
             Console.WriteLine("Par quel moyen souhaitez-vous retrouver les informations du produit ? (IDproduit, IDfournisseur)");
             string Moyen = Console.ReadLine();
@@ -568,10 +568,18 @@ namespace AdopteUnSportConsole
 
         }
         //Autre
-        static void MeilleurClient() //Faire des stats de meilleur vente etc. ?
+        static void MeilleurClient() //A TESTER
         {
-        
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();         
+            MySqlCommand command = maConnexion.CreateCommand();
+            MySqlDataReader reader;
+            command.CommandText = "select IDClient, nom, prenom, dateNaiss, adresse, ville, depenses, email from Clients where max(depense)";
+            reader = command.ExecuteReader();
+            maConnexion.Close();
         }
+
         static void VérifCodePromo(string Code) //Faire une gestion des codes promo, on disait qu'on faisait une réduc de 100€ ou jsp quoi
         {
         
