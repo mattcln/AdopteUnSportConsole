@@ -468,7 +468,14 @@ namespace AdopteUnSportConsole
         //Livraison
         static void SelectionFournisseur (string IDProduit) //Donner le fournisseur responsable d'un article quelconque (y'a un pb d'IDFournisseur pour le moment)
         {
-
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+            MySqlCommand command = maConnexion.CreateCommand();
+            MySqlDataReader reader;
+            command.CommandText = "select IDFournisseur from Produit where IDProduit = '" + IDProduit + "';";
+            reader = command.ExecuteReader();
+            maConnexion.Close();
         }
         
         //Produit
@@ -533,7 +540,7 @@ namespace AdopteUnSportConsole
             maConnexion.Open();         
             MySqlCommand command = maConnexion.CreateCommand();
             MySqlDataReader reader;
-            command.CommandText = "select IDClient, nom, prenom, dateNaiss, adresse, ville, depenses, email from Clients where max(depense)";
+            command.CommandText = "select depenses, nom, prenom from Clients where depenses >= all (select depenses from Clients);";
             reader = command.ExecuteReader();
             maConnexion.Close();
         }
