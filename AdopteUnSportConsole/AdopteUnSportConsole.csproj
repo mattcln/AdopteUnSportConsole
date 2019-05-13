@@ -47,11 +47,6 @@
     <Reference Include="System.Xml" />
   </ItemGroup>
   <ItemGroup>
-    <Compile Include="Clients.cs" />
-    <Compile Include="Commande.cs" />
-    <Compile Include="Fournisseur.cs" />
-    <Compile Include="Livraison.cs" />
-    <Compile Include="Produit.cs" />
     <Compile Include="Program.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
