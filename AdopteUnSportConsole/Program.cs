@@ -12,13 +12,14 @@ namespace AdopteUnSportConsole
     {
         static void Main(string[] args)
         {
-            NouvelleCommande();
+            string IDProduit = "P01001,P01003,P01004";
+            VérifierStockIDProduits(IDProduit);
             Console.ReadKey();
         }
 
         static void ExoType()
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -62,6 +63,7 @@ namespace AdopteUnSportConsole
                 RéponseArticle = OuiNon();
             }
             Console.WriteLine(" Voici la liste des IDs des produits séléctionnés : " + IDProduitsCom);
+            VérifierStockIDProduits(IDProduitsCom);
             Console.WriteLine(" Confirmez-vous la commande ? ('Oui' pour confirmer, 'Non' pour annuler)");
             string RConfirmation = OuiNon();
             if (RConfirmation == "oui")
@@ -114,7 +116,7 @@ namespace AdopteUnSportConsole
         }                                                                                                         
         static void EnregistrementClient(string Nom, string Prénom, int AnnéeNaiss, string Adresse, string Ville, string Email)                                     // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -130,7 +132,7 @@ namespace AdopteUnSportConsole
         }
         static string CréationIDClient()                                                                                                                            // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
             MySqlCommand command = maConnexion.CreateCommand();
@@ -211,7 +213,7 @@ namespace AdopteUnSportConsole
         }
         static void RetrouverInformationsclient(string Moyen, string InfoB)                                                                                         // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
             string IDClient = ""; string Nom = ""; string Prénom = ""; int dateNaiss = 0; string adresse = ""; string ville = ""; int depenses = 0; string email = "";
@@ -542,7 +544,7 @@ namespace AdopteUnSportConsole
         //Livraison
         static void SelectionFournisseur (string IDProduit)                                                                                                         // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
             MySqlCommand command = maConnexion.CreateCommand();
@@ -555,7 +557,7 @@ namespace AdopteUnSportConsole
         //Produit
         static void AjouterStock(string IDProduit) //A TESTER
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -576,7 +578,7 @@ namespace AdopteUnSportConsole
         }
         static void RetrouverInformationsProduit(string IDProduit)                                                                                                  // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
             string IDFournisseur = ""; int prix = 0; int stock = 0; string objet = "";
@@ -619,7 +621,7 @@ namespace AdopteUnSportConsole
         //Autre
         static void MeilleurClient()                                                                                                                                // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();         
             MySqlCommand command = maConnexion.CreateCommand();
@@ -654,7 +656,7 @@ namespace AdopteUnSportConsole
         static bool ExistenceProduit(string IDProduit)                                                                                                              // CA MARCHE
         {
             bool Existence = false;
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -693,7 +695,7 @@ namespace AdopteUnSportConsole
         } 
         static void SoustraireArticle(string IDProduit)                                                                                                             // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -708,7 +710,7 @@ namespace AdopteUnSportConsole
         static bool ExistenceIDClient(string IDClients)                                                                                                             // CA MARCHE
         {
             bool Existence = false;
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -735,7 +737,7 @@ namespace AdopteUnSportConsole
         static bool ExistenceNomClient(string nom)                                                                                                                  // CA MARCHE
         {
             bool Existence = false;
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -762,7 +764,7 @@ namespace AdopteUnSportConsole
         static bool ExistencePrenomClient(string prenom)                                                                                                            // CA MARCHE
         {
             bool Existence = false;
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -789,7 +791,7 @@ namespace AdopteUnSportConsole
         static bool ExistenceDateNaissClient(string dateNaiss)                                                                                                      // CA MARCHE
         {
             bool Existence = false;
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -816,7 +818,7 @@ namespace AdopteUnSportConsole
         static bool ExistenceAdresseClient(string adresse)                                                                                                          // CA MARCHE
         {
             bool Existence = false;
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -843,7 +845,7 @@ namespace AdopteUnSportConsole
         static bool ExistenceVilleClient(string ville)                                                                                                              // CA MARCHE
         {
             bool Existence = false;
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -870,7 +872,7 @@ namespace AdopteUnSportConsole
         static bool ExistenceDepensesClient(string depenses)                                                                                                        // CA MARCHE
         {
             bool Existence = false;
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -897,7 +899,7 @@ namespace AdopteUnSportConsole
         static bool ExistenceEmailClient(string email)                                                                                                              // CA MARCHE
         {
             bool Existence = false;
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -920,6 +922,74 @@ namespace AdopteUnSportConsole
             }
             maConnexion.Close();
             return Existence;
+        }
+
+        static string VérifierStockIDProduits(string ListeIDProduits)
+        {
+            string[] TabIDProduits = ListeIDProduits.Split(',');
+
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            
+            int stock = 0; string objet = ""; string Livraison = ""; string ProduitDispo = "";
+            
+            for (int i = 0; i < TabIDProduits.Length; i++)
+            {
+                maConnexion.Open();
+                MySqlCommand command = maConnexion.CreateCommand();
+                MySqlDataReader reader;
+                command.CommandText = "select IDProduit, objet , stock from Produit where IDProduit = '" + TabIDProduits[i] + "'";
+
+                reader = command.ExecuteReader();
+                string InfoProduit = "";
+                while (reader.Read())       // parcours ligne par ligne
+                {
+                    InfoProduit = "";
+                    for (int j = 0; j < reader.FieldCount; j++)  //parcours cellule par cellule
+                    {
+                        string valeurattribut = reader.GetValue(j).ToString();
+                        InfoProduit += valeurattribut + ",";
+                    }
+                }
+                string[] TabInfoProduit = InfoProduit.Split(',');
+                stock = Convert.ToInt32(TabInfoProduit[2]);
+                if (stock == 0)
+                {
+                    Livraison += i + 1 + ",";
+                }
+                else ProduitDispo += i + ",";
+                Console.WriteLine(TabInfoProduit[0] + "    " + TabInfoProduit[2] + "    " + TabInfoProduit[1]);
+                maConnexion.Close();
+            }
+            if (Livraison != "")
+            {
+                Console.WriteLine(" Les articles " + Livraison + " ne sont plus disponible(s) en magasin");
+                Console.WriteLine(" Voulez-vous les faire livrer chez vous ?");
+                string RéponseLivraison = OuiNon();
+                if (RéponseLivraison == "oui")
+                {
+                    LivraisonProduits(Livraison);
+                }
+                else
+                {
+                    ListeIDProduits = "";
+                    string[] TabProduitDispo = ProduitDispo.Split(',');                    
+                    int TabTropMims;
+                    for (int k = 0; k < TabProduitDispo.Length-1; k++)
+                    {
+                        TabTropMims = Convert.ToInt32(TabProduitDispo[k]);
+                        ListeIDProduits += TabIDProduits[TabTropMims] +",";
+                    }                    
+                }
+                    
+            }
+            Console.WriteLine("La commande contient maintenant les articles : " + ListeIDProduits);
+            return ListeIDProduits;
+            
+        }
+        static void LivraisonProduits(string Produits)
+        {
+
         }
 
     }
