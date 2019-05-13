@@ -12,8 +12,7 @@ namespace AdopteUnSportConsole
     {
         static void Main(string[] args)
         {
-            string IDProduit = "P01001,P01003,P01004";
-            VérifierStockIDProduits(IDProduit);
+            NouvelleCommande();
             Console.ReadKey();
         }
 
@@ -63,13 +62,13 @@ namespace AdopteUnSportConsole
                 RéponseArticle = OuiNon();
             }
             Console.WriteLine(" Voici la liste des IDs des produits séléctionnés : " + IDProduitsCom);
-            VérifierStockIDProduits(IDProduitsCom);
+            IDProduitsCom = VérifierStockIDProduits(IDProduitsCom);
             Console.WriteLine(" Confirmez-vous la commande ? ('Oui' pour confirmer, 'Non' pour annuler)");
             string RConfirmation = OuiNon();
             if (RConfirmation == "oui")
             {
                 string[] IDP = IDProduitsCom.Split(',');
-                for (int i = 0; i < IDP.Length; i++)
+                for (int i = 0; i < IDP.Length-1; i++)
                 {
                     SoustraireArticle(IDP[i]);
                 }
