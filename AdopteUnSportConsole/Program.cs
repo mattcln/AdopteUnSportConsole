@@ -12,7 +12,7 @@ namespace AdopteUnSportConsole
     {
         static void Main(string[] args)
         {
-            InformationProduit();
+            MeilleurClient();
             Console.ReadKey();
         }
 
@@ -434,6 +434,16 @@ namespace AdopteUnSportConsole
             Console.WriteLine(" Dépenses : " + Dépenses);
             Console.WriteLine(" Email : " + Email);
         }
+        static void AffichageInfoMeilleurClient(string IDClient, string Nom, string Prénom, int Dépenses)        // CA MARCHE
+        {
+            Console.Clear();
+            Console.WriteLine("     Voici les informations du meilleur client :");
+            Console.WriteLine("");
+            Console.WriteLine(" IDClient : " + IDClient);
+            Console.WriteLine(" Nom : " + Nom);
+            Console.WriteLine(" Prénom : " + Prénom);
+            Console.WriteLine(" Dépenses : " + Dépenses + " euros");
+        }
         static string ConnexionClient()
         {
             Console.WriteLine(" Est-ce que le client a déjà un compte existant ?");
@@ -490,7 +500,7 @@ namespace AdopteUnSportConsole
             string IDProduit = AjouterUnArticle();
             RetrouverInformationsProduit(IDProduit);
         }
-       static void RetrouverInformationsProduit(string IDProduit)
+        static void RetrouverInformationsProduit(string IDProduit)
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
@@ -517,7 +527,7 @@ namespace AdopteUnSportConsole
             prix = Convert.ToInt32(TabInfoProduit[1]);
             stock = Convert.ToInt32(TabInfoProduit[2]);
             objet = TabInfoProduit[3];
-
+            maConnexion.Close();
             AffichageInfoProduit(IDProduit, IDFournisseur, prix, stock, objet);
         }
         static void AffichageInfoProduit(string IDProduit, string IDFournisseur, int prix, int stock, string objet)
@@ -540,8 +550,24 @@ namespace AdopteUnSportConsole
             maConnexion.Open();         
             MySqlCommand command = maConnexion.CreateCommand();
             MySqlDataReader reader;
-            command.CommandText = "select depenses, nom, prenom from Clients where depenses >= all (select depenses from Clients);";
+            command.CommandText = "select depenses, nom, prenom, IDClients from Clients where depenses >= all (select depenses from Clients);";
             reader = command.ExecuteReader();
+            int dépense = 0;  string InfoClient = ""; string nom = ""; string prenom = ""; string IDClients = ""; 
+            while (reader.Read())       // parcours ligne par ligne
+            {
+                InfoClient = "";
+                for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
+                {
+                    string valeurattribut = reader.GetValue(i).ToString();
+                    InfoClient += valeurattribut + ",";
+                }
+            }
+            string[] TabInfoClient = InfoClient.Split(',');
+            dépense = Convert.ToInt32(TabInfoClient[0]);
+            nom = TabInfoClient[1];
+            prenom = TabInfoClient[2];
+            IDClients = TabInfoClient[3];
+            AffichageInfoMeilleurClient(IDClients, nom, prenom, dépense);
             maConnexion.Close();
         }
 
