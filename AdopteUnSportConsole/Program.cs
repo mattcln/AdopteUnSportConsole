@@ -12,7 +12,7 @@ namespace AdopteUnSportConsole
     {
         static void Main(string[] args)
         {
-            NouvelleCommande();
+            InformationProduit();
             Console.ReadKey();
         }
 
@@ -76,7 +76,7 @@ namespace AdopteUnSportConsole
         }
         static string AjouterUnArticle()                                                                                                                            // CA MARCHE
         {
-            Console.WriteLine(" Veuillez renseigner l'ID du produit que vous voulez ajouter :");
+            Console.WriteLine(" Veuillez renseigner l'ID du produit :");
             string IDProduit = Console.ReadLine();
             bool FindProduit = ExistenceProduit(IDProduit); //Renvoie "true" si le produit existe & "false" si le produit existe pas
             while (FindProduit == false)
@@ -478,93 +478,51 @@ namespace AdopteUnSportConsole
         }
         static void InformationProduit() //A TESTER
         {
-            Console.WriteLine("Par quel moyen souhaitez-vous retrouver les informations du produit ? (IDproduit, IDfournisseur)");
-            string Moyen = Console.ReadLine();
-            Moyen = Moyen.ToLower();
-            while (Moyen != "idproduit" && Moyen != "idfournisseur")
-            {
-                Console.WriteLine(" Veuillez renseigner un moyen valide s'il-vous-plaît : (IDproduit, IDfournisseur)");
-                Moyen = Console.ReadLine();
-                Moyen = Moyen.ToLower();
-            }
-            string InfoB = "";
-            if (Moyen == "idproduit")
-            {
-                Console.WriteLine("Veuillez renseigner l'ID du produit :");
-                InfoB = Console.ReadLine();
-            }
-            if (Moyen == "idfournisseur")
-            {
-                Console.WriteLine("Veuillez renseigner l'ID du fournisseur  :");
-                InfoB = Console.ReadLine();
-            }
-            RetrouverInformationsProduit(Moyen, InfoB);
+            Console.WriteLine("             Information d'un produit");
+            Console.WriteLine();
+            string IDProduit = AjouterUnArticle();
+            RetrouverInformationsProduit(IDProduit);
         }
-       static void RetrouverInformationsProduit(string Moyen, string InfoB)
+       static void RetrouverInformationsProduit(string IDProduit)
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
-            string IDProduit = ""; string IDFournisseur = ""; int prix = 0; int stock = 0; string type = "";
+            string IDFournisseur = ""; int prix = 0; int stock = 0; string objet = "";
             MySqlCommand command = maConnexion.CreateCommand();
             MySqlDataReader reader;
-            if (Moyen == "idproduit")
-            {
-                command.CommandText = "select IDProduit , IDFournisseur, prix , stock, type from Produit where IDProduit = '" + InfoB + "'";
 
-                reader = command.ExecuteReader();
-                string InfoProduit = "";
-                while (reader.Read())       // parcours ligne par ligne
-                {
-                    InfoProduit = "";
-                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
-                    {
-                        string valeurattribut = reader.GetValue(i).ToString();
-                        InfoProduit += valeurattribut + ",";
-                    }
-                }
-                string[] TabInfoProduit = InfoProduit.Split(',');
-                InfoProduit = InfoB;
-                IDFournisseur = TabInfoProduit[1];
-                prix = Convert.ToInt32(TabInfoProduit[2]);
-                stock = Convert.ToInt32(TabInfoProduit[3]);
-                type = TabInfoProduit[4];
-               
-            }
-            if (Moyen == "idfournisseur")
-            {
-                command.CommandText = "select IDProduit , IDFournisseur, prix , stock, type from Produit where IDProduit = '" + InfoB + "'";
+            command.CommandText = "select IDFournisseur, prix , stock, objet from Produit where IDProduit = '" + IDProduit + "'";
 
-                reader = command.ExecuteReader();
-                string InfoProduit = "";
-                while (reader.Read())       // parcours ligne par ligne
+            reader = command.ExecuteReader();
+            string InfoProduit = "";
+            while (reader.Read())       // parcours ligne par ligne
+            {
+                InfoProduit = "";
+                for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
                 {
-                    InfoProduit = "";
-                    for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
-                    {
-                        string valeurattribut = reader.GetValue(i).ToString();
-                        InfoProduit += valeurattribut + ",";
-                    }
+                    string valeurattribut = reader.GetValue(i).ToString();
+                    InfoProduit += valeurattribut + ",";
                 }
-                string[] TabInfoProduit = InfoProduit.Split(',');
-                InfoProduit = InfoB;
-                IDFournisseur = TabInfoProduit[1];
-                prix = Convert.ToInt32(TabInfoProduit[2]);
-                stock = Convert.ToInt32(TabInfoProduit[3]);
-                type = TabInfoProduit[4];
             }
-            AffichageInfoProduit(IDProduit, IDFournisseur, prix, stock, type);
+            string[] TabInfoProduit = InfoProduit.Split(',');            
+            IDFournisseur = TabInfoProduit[0];
+            prix = Convert.ToInt32(TabInfoProduit[1]);
+            stock = Convert.ToInt32(TabInfoProduit[2]);
+            objet = TabInfoProduit[3];
+
+            AffichageInfoProduit(IDProduit, IDFournisseur, prix, stock, objet);
         }
-        static void AffichageInfoProduit(string IDProduit, string IDFournisseur, int prix, int stock, string type)
+        static void AffichageInfoProduit(string IDProduit, string IDFournisseur, int prix, int stock, string objet)
         {
             Console.Clear();
             Console.WriteLine("     Voici les informations du produit :");
             Console.WriteLine("");
             Console.WriteLine(" IDProduit : " + IDProduit);
             Console.WriteLine(" IDFournisseur : " + IDFournisseur);
-            Console.WriteLine(" prix : " + prix);
+            Console.WriteLine(" prix : " + prix + " Euros");
             Console.WriteLine(" stock : " + stock);
-            Console.WriteLine(" type : " + type);
+            Console.WriteLine(" description du produit : " + objet);
 
         }
         //Autre
