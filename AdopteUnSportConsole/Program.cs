@@ -466,7 +466,7 @@ namespace AdopteUnSportConsole
 
 
         //Livraison
-        static void SelectionFournisseur (string IDProduit) //Donner le fournisseur responsable d'un article quelconque (y'a un pb d'IDFournisseur pour le moment)
+        static void SelectionFournisseur (string IDProduit) //A TESTER
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
@@ -479,9 +479,19 @@ namespace AdopteUnSportConsole
         }
         
         //Produit
-        static void AjouterStock() //Ajouter du stock dans la base de donnée pour un produit
+        static void AjouterStock(string IDProduit) //A TESTER
         {
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
 
+            MySqlCommand command = maConnexion.CreateCommand();
+            int qte = int.Parse(Console.ReadLine());
+            command.CommandText = "UPDATE Produit SET stock = stock + " + qte + " WHERE IDProduit = '" + IDProduit + "'";
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            Console.WriteLine("Le stock du produit " + IDProduit + " a été augmenté de " + qte + " avec succès.");
+            maConnexion.Close();
         }
         static void InformationProduit() //A TESTER
         {
