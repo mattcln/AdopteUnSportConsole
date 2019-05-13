@@ -434,7 +434,7 @@ namespace AdopteUnSportConsole
             Console.WriteLine(" Dépenses : " + Dépenses);
             Console.WriteLine(" Email : " + Email);
         }
-        static void AffichageInfoMeilleurClient(string IDClient, string Nom, string Prénom, int Dépenses)        // CA MARCHE
+        static void AffichageInfoMeilleurClient(string IDClient, string Nom, string Prénom, int Dépenses)                                                           // CA MARCHE
         {
             Console.Clear();
             Console.WriteLine("     Voici les informations du meilleur client :");
@@ -444,7 +444,7 @@ namespace AdopteUnSportConsole
             Console.WriteLine(" Prénom : " + Prénom);
             Console.WriteLine(" Dépenses : " + Dépenses + " euros");
         }
-        static string ConnexionClient()
+        static string ConnexionClient()                                                                                                                             // CA MARCHE
         {
             Console.WriteLine(" Est-ce que le client a déjà un compte existant ?");
             string RéponseClient1 = OuiNon();
@@ -476,7 +476,7 @@ namespace AdopteUnSportConsole
 
 
         //Livraison
-        static void SelectionFournisseur (string IDProduit) //A TESTER
+        static void SelectionFournisseur (string IDProduit)                                                                                                         // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
@@ -503,14 +503,14 @@ namespace AdopteUnSportConsole
             Console.WriteLine("Le stock du produit " + IDProduit + " a été augmenté de " + qte + " avec succès.");
             maConnexion.Close();
         }
-        static void InformationProduit() //A TESTER
+        static void InformationProduit()                                                                                                                            // CA MARCHE
         {
             Console.WriteLine("             Information d'un produit");
             Console.WriteLine();
             string IDProduit = AjouterUnArticle();
             RetrouverInformationsProduit(IDProduit);
         }
-        static void RetrouverInformationsProduit(string IDProduit)
+        static void RetrouverInformationsProduit(string IDProduit)                                                                                                  // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
@@ -540,7 +540,7 @@ namespace AdopteUnSportConsole
             maConnexion.Close();
             AffichageInfoProduit(IDProduit, IDFournisseur, prix, stock, objet);
         }
-        static void AffichageInfoProduit(string IDProduit, string IDFournisseur, int prix, int stock, string objet)
+        static void AffichageInfoProduit(string IDProduit, string IDFournisseur, int prix, int stock, string objet)                                                 // CA MARCHE
         {
             Console.Clear();
             Console.WriteLine("     Voici les informations du produit :");
@@ -553,7 +553,7 @@ namespace AdopteUnSportConsole
 
         }
         //Autre
-        static void MeilleurClient() //A TESTER
+        static void MeilleurClient()                                                                                                                                // CA MARCHE
         {
             string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
