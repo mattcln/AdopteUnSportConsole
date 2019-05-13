@@ -12,13 +12,13 @@ namespace AdopteUnSportConsole
     {
         static void Main(string[] args)
         {
-            MeilleurClient();
+            NouvelleCommande();
             Console.ReadKey();
         }
 
         static void ExoType()
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -114,7 +114,7 @@ namespace AdopteUnSportConsole
         }                                                                                                         
         static void EnregistrementClient(string Nom, string Prénom, int AnnéeNaiss, string Adresse, string Ville, string Email)                                     // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -130,7 +130,7 @@ namespace AdopteUnSportConsole
         }
         static string CréationIDClient()                                                                                                                            // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
             MySqlCommand command = maConnexion.CreateCommand();
@@ -211,14 +211,22 @@ namespace AdopteUnSportConsole
         }
         static void RetrouverInformationsclient(string Moyen, string InfoB)                                                                                         // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
             string IDClient = ""; string Nom = ""; string Prénom = ""; int dateNaiss = 0; string adresse = ""; string ville = ""; int depenses = 0; string email = "";
             MySqlCommand command = maConnexion.CreateCommand();
             MySqlDataReader reader;
-            if (Moyen == "idclient")
+            if (Moyen == "IDClient")
             {
+                bool Existence = false;
+                Existence = ExistenceIDClient(InfoB);
+                while (Existence == false)
+                {
+                    Console.WriteLine("L'ID Client donné n'existe pas dans les bases de données, veuillez en donner un nouveau :");
+                    InfoB = Console.ReadLine();
+                    Existence = ExistenceNomClient(InfoB);
+                }
                 command.CommandText = "select nom , prenom, dateNaiss , adresse, ville, depenses, email from Clients where IDClients = '" + InfoB + "'";
                 
                 reader = command.ExecuteReader();
@@ -244,6 +252,14 @@ namespace AdopteUnSportConsole
             }
             if (Moyen == "nom")
             {
+                bool Existence = false;
+                Existence = ExistenceNomClient(InfoB);
+                while (Existence == false)
+                {
+                    Console.WriteLine("Le nom donné n'existe pas dans les bases de données, veuillez en donner un nouveau :");
+                    InfoB = Console.ReadLine();
+                    Existence = ExistenceNomClient(InfoB);
+                }
                 command.CommandText = "select IDClients , prenom, dateNaiss , adresse, ville, depenses, email from Clients where nom = '" + InfoB + "'";
 
                 reader = command.ExecuteReader();
@@ -269,6 +285,14 @@ namespace AdopteUnSportConsole
             }
             if (Moyen == "prenom")
             {
+                bool Existence = false;
+                Existence = ExistenceNomClient(InfoB);
+                while (Existence == false)
+                {
+                    Console.WriteLine("Le prenom donné n'existe pas dans les bases de données, veuillez en donner un nouveau :");
+                    InfoB = Console.ReadLine();
+                    Existence = ExistencePrenomClient(InfoB);
+                }
                 command.CommandText = "select IDClients , nom, dateNaiss , adresse, ville, depenses, email from Clients where prenom = '" + InfoB + "'";
 
                 reader = command.ExecuteReader();
@@ -294,6 +318,14 @@ namespace AdopteUnSportConsole
             }
             if (Moyen == "annéenaiss")
             {
+                bool Existence = false;
+                Existence = ExistenceNomClient(InfoB);
+                while (Existence == false)
+                {
+                    Console.WriteLine("La date de naissance donnée n'existe pas dans les bases de données, veuillez en donner une nouvelle :");
+                    InfoB = Console.ReadLine();
+                    Existence = ExistenceDateNaissClient(InfoB);
+                }
                 command.CommandText = "select IDClients, nom, prenom , adresse, ville, depenses, email from Clients where dateNaiss = " + InfoB;
 
                 reader = command.ExecuteReader();
@@ -319,6 +351,14 @@ namespace AdopteUnSportConsole
             }
             if (Moyen == "adresse")
             {
+                bool Existence = false;
+                Existence = ExistenceAdresseClient(InfoB);
+                while (Existence == false)
+                {
+                    Console.WriteLine("L'adresse donnée n'existe pas dans les bases de données, veuillez en donner une nouvelle :");
+                    InfoB = Console.ReadLine();
+                    Existence = ExistenceNomClient(InfoB);
+                }
                 command.CommandText = "select IDClients, nom, prenom , dateNaiss, ville, depenses, email from Clients where adresse = '" + InfoB + "'";
 
                 reader = command.ExecuteReader();
@@ -344,6 +384,14 @@ namespace AdopteUnSportConsole
             }
             if (Moyen == "ville")
             {
+                bool Existence = false;
+                Existence = ExistenceVilleClient(InfoB);
+                while (Existence == false)
+                {
+                    Console.WriteLine("La ville donnée n'existe pas dans les bases de données, veuillez en donner une nouvelle :");
+                    InfoB = Console.ReadLine();
+                    Existence = ExistenceNomClient(InfoB);
+                }
                 command.CommandText = "select IDClients, nom, prenom , dateNaiss, adresse, depenses, email from Clients where ville = '" + InfoB + "'";
 
                 reader = command.ExecuteReader();
@@ -369,6 +417,14 @@ namespace AdopteUnSportConsole
             }
             if (Moyen == "dépense")
             {
+                bool Existence = false;
+                Existence = ExistenceDepensesClient(InfoB);
+                while (Existence == false)
+                {
+                    Console.WriteLine("Les dépenses données n'existent pas dans les bases de données, veuillez en donner de nouvelles :");
+                    InfoB = Console.ReadLine();
+                    Existence = ExistenceNomClient(InfoB);
+                }
                 command.CommandText = "select IDClients, nom, prenom , dateNaiss, adresse, ville, email from Clients where depenses = " + InfoB;
 
                 reader = command.ExecuteReader();
@@ -394,6 +450,14 @@ namespace AdopteUnSportConsole
             }
             if (Moyen == "email")
             {
+                bool Existence = false;
+                Existence = ExistenceEmailClient(InfoB);
+                while (Existence == false)
+                {
+                    Console.WriteLine("L'email donné n'existe pas dans les bases de données, veuillez en donner un nouveau :");
+                    InfoB = Console.ReadLine();
+                    Existence = ExistenceNomClient(InfoB);
+                }
                 command.CommandText = "select IDClients, nom, prenom , dateNaiss, adresse, ville, depenses from Clients where email = '" + InfoB + "'";
 
                 reader = command.ExecuteReader();
@@ -478,7 +542,7 @@ namespace AdopteUnSportConsole
         //Livraison
         static void SelectionFournisseur (string IDProduit)                                                                                                         // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
             MySqlCommand command = maConnexion.CreateCommand();
@@ -491,7 +555,7 @@ namespace AdopteUnSportConsole
         //Produit
         static void AjouterStock(string IDProduit) //A TESTER
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -512,7 +576,7 @@ namespace AdopteUnSportConsole
         }
         static void RetrouverInformationsProduit(string IDProduit)                                                                                                  // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
             string IDFournisseur = ""; int prix = 0; int stock = 0; string objet = "";
@@ -555,7 +619,7 @@ namespace AdopteUnSportConsole
         //Autre
         static void MeilleurClient()                                                                                                                                // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();         
             MySqlCommand command = maConnexion.CreateCommand();
@@ -590,7 +654,7 @@ namespace AdopteUnSportConsole
         static bool ExistenceProduit(string IDProduit)                                                                                                              // CA MARCHE
         {
             bool Existence = false;
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -629,7 +693,7 @@ namespace AdopteUnSportConsole
         } 
         static void SoustraireArticle(string IDProduit)                                                                                                             // CA MARCHE
         {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
             MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
             maConnexion.Open();
 
@@ -640,5 +704,223 @@ namespace AdopteUnSportConsole
             Console.WriteLine("Le stock du produit " + IDProduit + " a été baissé de 1 avec succès.");
             maConnexion.Close();
         }
+
+        static bool ExistenceIDClient(string IDClients)                                                                                                             // CA MARCHE
+        {
+            bool Existence = false;
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "SELECT IDClients from Clients"; // exemple de requête
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    string ligne = reader.GetValue(i).ToString();
+                    if (ligne == IDClients)
+                    {
+                        Existence = true;
+                        Console.WriteLine(" Le client a été trouvé.");
+                    }
+                }
+            }
+            maConnexion.Close();
+            return Existence;
+        }
+        static bool ExistenceNomClient(string nom)                                                                                                                  // CA MARCHE
+        {
+            bool Existence = false;
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "SELECT nom from Clients"; // exemple de requête
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    string ligne = reader.GetValue(i).ToString();
+                    if (ligne == nom)
+                    {
+                        Existence = true;
+                        Console.WriteLine(" Le client a été trouvé.");
+                    }
+                }
+            }
+            maConnexion.Close();
+            return Existence;
+        }
+        static bool ExistencePrenomClient(string prenom)                                                                                                            // CA MARCHE
+        {
+            bool Existence = false;
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "SELECT prenom from Clients"; // exemple de requête
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    string ligne = reader.GetValue(i).ToString();
+                    if (ligne == prenom)
+                    {
+                        Existence = true;
+                        Console.WriteLine(" Le client a été trouvé.");
+                    }
+                }
+            }
+            maConnexion.Close();
+            return Existence;
+        }
+        static bool ExistenceDateNaissClient(string dateNaiss)                                                                                                      // CA MARCHE
+        {
+            bool Existence = false;
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "SELECT dateNaiss from Clients"; // exemple de requête
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    string ligne = reader.GetValue(i).ToString();
+                    if (ligne == dateNaiss)
+                    {
+                        Existence = true;
+                        Console.WriteLine(" Le client a été trouvé.");
+                    }
+                }
+            }
+            maConnexion.Close();
+            return Existence;
+        }
+        static bool ExistenceAdresseClient(string adresse)                                                                                                          // CA MARCHE
+        {
+            bool Existence = false;
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "SELECT adresse from Clients"; // exemple de requête
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    string ligne = reader.GetValue(i).ToString();
+                    if (ligne == adresse)
+                    {
+                        Existence = true;
+                        Console.WriteLine(" Le client a été trouvé.");
+                    }
+                }
+            }
+            maConnexion.Close();
+            return Existence;
+        }
+        static bool ExistenceVilleClient(string ville)                                                                                                              // CA MARCHE
+        {
+            bool Existence = false;
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "SELECT ville from Clients"; // exemple de requête
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    string ligne = reader.GetValue(i).ToString();
+                    if (ligne == ville)
+                    {
+                        Existence = true;
+                        Console.WriteLine(" Le client a été trouvé.");
+                    }
+                }
+            }
+            maConnexion.Close();
+            return Existence;
+        }
+        static bool ExistenceDepensesClient(string depenses)                                                                                                        // CA MARCHE
+        {
+            bool Existence = false;
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "SELECT depenses from Clients"; // exemple de requête
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    string ligne = reader.GetValue(i).ToString();
+                    if (ligne == depenses)
+                    {
+                        Existence = true;
+                        Console.WriteLine(" Le client a été trouvé.");
+                    }
+                }
+            }
+            maConnexion.Close();
+            return Existence;
+        }
+        static bool ExistenceEmailClient(string email)                                                                                                              // CA MARCHE
+        {
+            bool Existence = false;
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = Prekodragan3;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "SELECT email from Clients"; // exemple de requête
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    string ligne = reader.GetValue(i).ToString();
+                    if (ligne == email)
+                    {
+                        Existence = true;
+                        Console.WriteLine(" Le client a été trouvé.");
+                    }
+                }
+            }
+            maConnexion.Close();
+            return Existence;
+        }
+
     }
 }
