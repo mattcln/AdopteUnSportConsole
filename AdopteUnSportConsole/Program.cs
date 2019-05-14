@@ -13,7 +13,7 @@ namespace AdopteUnSportConsole
         static void Main(string[] args)
         {
 
-            NouvelleCommande();
+            RécupérationInformationClient("A0001");
             Console.ReadKey();
         }
 
@@ -549,20 +549,6 @@ namespace AdopteUnSportConsole
             }
             return IDClient;
         }
-
-
-        //Livraison
-        static void SelectionFournisseur (string IDProduit)                                                                                                         // CA MARCHE
-        {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
-            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
-            maConnexion.Open();
-            MySqlCommand command = maConnexion.CreateCommand();
-            MySqlDataReader reader;
-            command.CommandText = "select IDFournisseur from Produit where IDProduit = '" + IDProduit + "';";
-            reader = command.ExecuteReader();
-            maConnexion.Close();
-        }
         
         //Produit
         static void AjouterStock(string IDProduit)                                                                                                                   // A TESTER
@@ -630,9 +616,92 @@ namespace AdopteUnSportConsole
         }
 
         //Livraison
-        static void EnregisterLivraison(string IDClient)                                                                     // Enregistrer une nouvelle livraison dans le MySQL
+        static void EnregisterLivraison(string IDClient, string IDProduit, int IDFournisseur)                                                                     // Enregistrer une nouvelle livraison dans le MySQL
         {
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
 
+            int numLivraison = CréationNumLivraison();
+            string InformationClient = RécupérationInformationClient(IDClient);
+            string[] TabInformationClient = InformationClient.Split(',');
+            string nom = TabInformationClient[0];
+            string Prénom = TabInformationClient[0];
+            string Adresse = TabInformationClient[0];
+            string Ville = TabInformationClient[0];
+
+            //insert into Livraison values (9, 'A0016', 'Cola', 'Coca', '5 avenue de Garches', '64000 Biarritz', IDProduit, IDFournisseur)
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "insert into Livraison values ('" + numLivraison + "','" + IDClient + "','" + nom + "','" + Prénom + "','" + Adresse + "','" + Ville + "','" + IDProduit + "','" + IDFournisseur + "')";
+            Console.WriteLine(command.CommandText);
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            Console.WriteLine("La livraison a bien été enregistrée.");
+            maConnexion.Close();
+        }
+        static int CréationNumLivraison()
+        {
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "select count(numLivraison)+1 from Livraison";
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            string SnumLivraison = "";
+            int numLivraison = 0;
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    SnumLivraison = reader.GetValue(i).ToString();
+                }
+            }
+            numLivraison = Convert.ToInt32(SnumLivraison);
+            
+            maConnexion.Close();
+            Console.WriteLine(numLivraison);
+            Console.ReadKey();
+            return numLivraison;
+        }
+        static string RécupérationInformationClient(string IDClient)
+        {
+            string InformationClient = "";
+
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+
+            MySqlCommand command = maConnexion.CreateCommand();
+            command.CommandText = "SELECT nom, prenom, adresse, ville from Clients where IDClients = '" + IDClient + "'"; // exemple de requête
+
+            MySqlDataReader reader;
+            reader = command.ExecuteReader();
+            while (reader.Read())
+            {
+                for (int i = 0; i < reader.FieldCount; i++)
+                {
+                    string ligne = reader.GetValue(i).ToString();
+                    InformationClient += ligne + ",";
+                }
+            }
+            maConnexion.Close();
+            InformationClient = InformationClient.Substring(0, InformationClient.Length - 1);
+            Console.WriteLine(InformationClient);
+            Console.ReadKey();
+            return InformationClient;
+        }
+        static void SelectionFournisseur(string IDProduit)                                                                                                          // CA MARCHE
+        {
+            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
+            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
+            maConnexion.Open();
+            MySqlCommand command = maConnexion.CreateCommand();
+            MySqlDataReader reader;
+            command.CommandText = "select IDFournisseur from Produit where IDProduit = '" + IDProduit + "';";
+            reader = command.ExecuteReader();
+            maConnexion.Close();
         }
 
         //Autre
@@ -1031,6 +1100,7 @@ namespace AdopteUnSportConsole
             {
                 IDFournisseur = RetrouverFournisseur(tabProduits[i]);
                 ListeFournisseur += IDFournisseur + ",";
+                EnregisterLivraison(IDClient, tabProduits[i], IDFournisseur);
             }
             if (ListeFournisseur.Length == 2)
             {
@@ -1039,8 +1109,7 @@ namespace AdopteUnSportConsole
             else
             {
                 Console.WriteLine(" Les fournisseurs " + ListeFournisseur + " ont été contactés.");
-            }
-            EnregisterLivraison(IDClient);
+            }            
             Console.ReadKey();
         }
         static string RetrouverAdresse(string IDClient)                                                                                                             // CA MARCHE
