@@ -940,9 +940,6 @@ namespace AdopteUnSportConsole
             return Existence;
         }
 
-<<<<<<< HEAD
-        
-=======
         static string VérifierStockIDProduits(string ListeIDProduits, string IDClient)                                                                              // CA MARCHE
         {
             string[] TabIDProduits = ListeIDProduits.Split(',');
@@ -1091,8 +1088,5 @@ namespace AdopteUnSportConsole
             maConnexion.Close();
             return IDFournisseur;
         }
-
-
->>>>>>> aa70fb379f9fbb46cedb1031290124efcd5cfc1a
     }
 }
