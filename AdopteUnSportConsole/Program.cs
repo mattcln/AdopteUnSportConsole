@@ -17,32 +17,7 @@ namespace AdopteUnSportConsole
             Console.ReadKey();
         }
 
-        static void ExoType()
-        {
-            string infoConnexion = "SERVER = localhost; PORT = 3306; DATABASE = magasinAdopteUnSport; UID = root; PASSWORD = MATIbol78;";
-            MySqlConnection maConnexion = new MySqlConnection(infoConnexion);
-            maConnexion.Open();
-
-            MySqlCommand command = maConnexion.CreateCommand();
-            command.CommandText = "SELECT nom, prenom FROM Clients;"; // exemple de requête
-
-            MySqlDataReader reader;
-            reader = command.ExecuteReader();
-
-            // exemple de mannipulation du résultat
-            while (reader.Read())       // parcours ligne par ligne
-            {
-                string tupleCourrant = "";
-                for (int i = 0; i < reader.FieldCount; i++)  //parcours cellule par cellule
-                {
-                    string valeurattribut = reader.GetValue(i).ToString(); //récupération de la valeur de chaque cellule sous forme d'une string
-                    tupleCourrant += valeurattribut + ",";
-                }
-                Console.WriteLine(tupleCourrant); //affichage de la ligne 
-            }
-            maConnexion.Close();
-        }
-
+        
         //Sécurité
         static void Sécurité()
         {
@@ -782,11 +757,7 @@ namespace AdopteUnSportConsole
             AffichageInfoMeilleurClient(IDClients, nom, prenom, dépense);
             maConnexion.Close();
         }
-        static void VérifCodePromo(string Code)                                      // Faire une gestion des codes promo, on disait qu'on faisait une réduc de 100€ ou jsp quoi
-        {
         
-        }
-
         //Fonctions outils
         static bool ExistenceProduit(string IDProduit)                                                                                                              // CA MARCHE
         {
